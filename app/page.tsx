@@ -12,8 +12,7 @@ export default function Home() {
 
       <section className="col-span-full md:col-span-6 xl:col-span-4 xl:max-w-xl mx-auto w-full">
         {/* PostForm */}
-        <div  className="bg-red-400">red</div>
-        {/* <PostForm /> */}
+        <PostForm />
         {/* PostFeed */}
         {/* <PostFeed /> */}
       </section>
