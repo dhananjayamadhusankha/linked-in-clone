@@ -5,7 +5,7 @@ import { useUser } from "@clerk/nextjs";
 import { Button } from "./ui/button";
 import { ImageIcon, XIcon } from "lucide-react";
 import { useRef, useState } from "react";
-import createPostAction from "@/action/createPostAction";
+import createPostAction from "@/actions/createPostAction";
 
 function PostForm() {
   const ref = useRef<HTMLFormElement>(null);

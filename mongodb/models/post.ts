@@ -93,7 +93,7 @@ PostSchema.methods.getAllComments = async function () {
   }
 };
 
-PostSchema.methods.getAllPosts = async function () {
+PostSchema.statics.getAllPosts = async function () {
   try {
     const posts = await this.find()
       .sort({ createdAt: -1 })

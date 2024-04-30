@@ -1,8 +1,8 @@
 import connectDB from "@/mongodb/db";
 import { IPostBase, Post } from "@/mongodb/models/post";
 import { IUser } from "@/types/user";
-import { auth } from "@clerk/nextjs/server";
-import { NextResponse } from "next/server";
+import { auth, clerkClient } from "@clerk/nextjs/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export interface AddPostRequestBody {
   user: IUser;
@@ -10,12 +10,24 @@ export interface AddPostRequestBody {
   imageUrl?: string | null;
 }
 
-export async function POST(request: Request) {
-  auth().protect(); // Protect the route with clerk authentication
+export async function POST(request: NextRequest) {
+  await connectDB();
+  // auth().protect(); // Protect the route with clerk authentication
+
+  // const { userId } = auth();
+
+  // if (!userId) {
+  //   console.log("redirect to homepage")
+  //   return NextResponse.redirect(new URL('/',request.url))};
+
+  // const params = { firstName: 'John', lastName: 'Wick' };
+
+  // const user = await clerkClient.users.updateUser(userId, params);
+
+  // return NextResponse.json({ user });
+
 
   try {
-    await connectDB();
-
     const { user, text, imageUrl }: AddPostRequestBody = await request.json();
 
     const postData: IPostBase = {

@@ -6,14 +6,15 @@ import { NextResponse } from "next/server";
 
 export async function GET(
   request: Request,
-  { params }: { params: { user_id: string } }
+  { params }: { params: { post_id: string } }
 ) {
   await connectDB();
 
   try {
-    const post = await Post.findById(params.user_id);
+    const post = await Post.findById(params.post_id);
 
     if (!post) {
+      console.log("Post not found")
       return NextResponse.json({ error: "Post not found" }, { status: 404 });
     }
 
@@ -37,15 +38,16 @@ export interface AddCommentRequestBody {
 
 export async function POST(
   request: Request,
-  { params }: { params: { user_id: string } }
+  { params }: { params: { post_id: string } }
 ) {
   await connectDB();
 
   const { user, text }: AddCommentRequestBody = await request.json();
   try {
-    const post = await Post.findById(params.user_id);
+    const post = await Post.findById(params.post_id);
 
     if (!post) {
+      console.log("Post not found")
       return NextResponse.json("Post not found", { status: 404 });
     }
 
