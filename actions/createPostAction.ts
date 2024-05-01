@@ -71,8 +71,9 @@ export default async function createPostAction(formData: FormData) {
       };
       await Post.create(body);
     }
-  } catch (error: any) {
-    throw new Error("Fail to create post", error);
+  } catch (error) {
+    console.log(error);
+    throw new Error("Fail to create post");
   }
 
   // revalidatePath '/' - home page
