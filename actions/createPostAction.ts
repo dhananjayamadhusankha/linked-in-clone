@@ -7,6 +7,7 @@ import { IUser } from "@/types/user";
 import { BlobServiceClient } from "@azure/storage-blob";
 import { currentUser } from "@clerk/nextjs/server";
 import { randomUUID } from "crypto";
+import { revalidatePath } from "next/cache";
 
 export default async function createPostAction(formData: FormData) {
   const user = await currentUser();
@@ -71,9 +72,9 @@ export default async function createPostAction(formData: FormData) {
       };
       await Post.create(body);
     }
-  } catch (error: any) {
-    throw new Error("Fail to create post", error);
+  } catch (error) {
+    console.log(error);
+    throw new Error("Fail to create post");
   }
-
-  // revalidatePath '/' - home page
+  revalidatePath('/')
 }

@@ -6,6 +6,10 @@ const nextConfig = {
         protocol: "https",
         hostname: "links.papareact.com",
       },
+      {
+        protocol: "https",
+        hostname: "linkedinclonestorage.blob.core.windows.net",
+      },
     ],
   },
 };
