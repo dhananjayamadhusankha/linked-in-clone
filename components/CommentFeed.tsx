@@ -6,7 +6,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import ReactTimeago from "react-timeago";
 import { Badge } from "./ui/badge";
 
-function CommentForm({ post }: { post: IPostDocument }) {
+function CommentFeed({ post }: { post: IPostDocument }) {
   const { user } = useUser();
 
   const isAuthor = user?.id === post.user.userId;
@@ -47,4 +47,4 @@ function CommentForm({ post }: { post: IPostDocument }) {
   );
 }
 
-export default CommentForm;
+export default CommentFeed;

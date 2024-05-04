@@ -8,8 +8,8 @@ import { MessageCircle, Repeat2, Send, ThumbsUpIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { LikePostRequestBody } from "@/app/api/posts/[post_id]/like/route";
 import { UnlikePostRequestBody } from "@/app/api/posts/[post_id]/unlike/route";
-import CommentForm from "./CommentFeed";
-import CommentFeed from "./CommentForm";
+import CommentForm from "./CommentForm";
+import CommentFeed from "./CommentFeed";
 
 function PostOption({ post }: { post: IPostDocument }) {
   const [isCommentsOpen, setIsCommentsOpen] = useState(false);
@@ -129,7 +129,7 @@ function PostOption({ post }: { post: IPostDocument }) {
         <div className="p-4">
           <p>{/* {post.comments?.map((comment) =>(comment.text))} */}</p>
           <SignedIn>
-            <CommentForm post={post} />
+            <CommentFeed post={post} />
           </SignedIn>
           {/* <CommentFeed post={post} /> */}
         </div>
