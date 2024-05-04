@@ -1,5 +1,3 @@
-"use client";
-
 import { IPostDocument } from "@/mongodb/models/post";
 import { useUser } from "@clerk/nextjs";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
