@@ -34,7 +34,7 @@ export async function POST(
   request: Request,
   { params }: { params: { post_id: string } }
 ) {
-  // auth().protect();
+  auth().protect();
   await connectDB();
 
   const { userId }: UnlikePostRequestBody = await request.json();
