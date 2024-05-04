@@ -32,21 +32,21 @@ export interface LikePostRequestBody {
 
 export async function POST(
   request: Request,
-  { params }: { params: { userId: string } }
+  { params }: { params: { post_id: string } }
 ) {
-  auth().protect();
+  // auth().protect();
   await connectDB();
 
   const { userId }: LikePostRequestBody = await request.json();
 
   try {
-    const post = await Post.findById(params.userId);
+    const post = await Post.findById(params.post_id);
 
     if (!post) {
       return NextResponse.json("Not found post", { status: 404 });
     }
 
-    await post.unlikePost(userId)
+    await post.likePost(userId)
     return NextResponse.json("Post sucessfully liked", { status: 200 });
   } catch (error) {
     return NextResponse.json(
