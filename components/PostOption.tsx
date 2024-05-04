@@ -1,13 +1,15 @@
 "use client";
 
 import { IPostDocument } from "@/mongodb/models/post";
-import { useUser } from "@clerk/nextjs";
+import { SignedIn, useUser } from "@clerk/nextjs";
 import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import { MessageCircle, Repeat2, Send, ThumbsUpIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { LikePostRequestBody } from "@/app/api/posts/[post_id]/like/route";
 import { UnlikePostRequestBody } from "@/app/api/posts/[post_id]/unlike/route";
+import CommentForm from "./CommentFeed";
+import CommentFeed from "./CommentForm";
 
 function PostOption({ post }: { post: IPostDocument }) {
   const [isCommentsOpen, setIsCommentsOpen] = useState(false);
@@ -38,8 +40,6 @@ function PostOption({ post }: { post: IPostDocument }) {
     };
 
     setLiked(!liked);
-    console.log("adoooooooo>>>>>>>>", !liked);
-
     setLikes(newLikes);
 
     const response = await fetch(
@@ -128,8 +128,10 @@ function PostOption({ post }: { post: IPostDocument }) {
       {isCommentsOpen && (
         <div className="p-4">
           <p>{/* {post.comments?.map((comment) =>(comment.text))} */}</p>
-          {/* {user?.id && <CommentForm postId={postId} />}
-          <CommentFeed post={post}/> */}
+          <SignedIn>
+            <CommentForm post={post} />
+          </SignedIn>
+          {/* <CommentFeed post={post} /> */}
         </div>
       )}
     </div>
