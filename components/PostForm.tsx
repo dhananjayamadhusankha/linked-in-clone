@@ -6,6 +6,7 @@ import { Button } from "./ui/button";
 import { ImageIcon, XIcon } from "lucide-react";
 import { useRef, useState } from "react";
 import createPostAction from "@/actions/createPostAction";
+import { toast } from "sonner";
 
 function PostForm() {
   const ref = useRef<HTMLFormElement>(null);
@@ -26,20 +27,20 @@ function PostForm() {
 
   const handlePostAction = async (formData: FormData) => {
     const formDataCopy = formData;
-    ref.current?.reset()
+    ref.current?.reset();
 
-    const text = formDataCopy.get("postInput") as string
+    const text = formDataCopy.get("postInput") as string;
 
     if (!text.trim()) {
-      throw new Error("You must provide a post input")
+      throw new Error("You must provide a post input");
     }
 
-    setPreview(null)
+    setPreview(null);
 
     try {
-      await createPostAction(formDataCopy)
+      await createPostAction(formDataCopy);
     } catch (error) {
-      console.log("Error creating post: ", error)
+      console.log("Error creating post: ", error);
     }
   };
 
@@ -49,8 +50,13 @@ function PostForm() {
         ref={ref}
         action={(formData) => {
           // Handle form submission with server action
-          handlePostAction(formData);
+          const promise = handlePostAction(formData);
           // Toaast Notification based on the promise above
+          toast.promise(promise, {
+            loading: "Creating post...",
+            success: "Post created",
+            error: "Failed to create post",
+          });
         }}
         className="bg-white p-3 rounded-lg border"
       >
@@ -94,7 +100,11 @@ function PostForm() {
         )}
 
         <div className="flex flex-row mt-2 space-x-2 justify-end">
-          <Button type="button" onClick={() => fileInputRef.current?.click()}>
+          <Button
+            type="button"
+            onClick={() => fileInputRef.current?.click()}
+            variant={preview ? "secondary" : "outline"}
+          >
             <ImageIcon className="mr-2" size={16} />
             {preview ? "Change" : "Add"} image
           </Button>
