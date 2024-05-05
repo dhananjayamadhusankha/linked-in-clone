@@ -1,6 +1,6 @@
 "use client";
 
-import { IPostDocument } from "@/mongodb/models/post";
+import React, { useState } from "react";
 import { useUser } from "@clerk/nextjs";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Trash2 } from "lucide-react";
@@ -9,8 +9,9 @@ import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import ReactTimeago from "react-timeago";
 import deletePostAction from "@/actions/deletePostAction";
-import PostOption from "./PostOption";
 import { toast } from "sonner";
+import DeleteModal from "./DeleteModal";
+import { IPostDocument } from "@/mongodb/models/post";
 
 function Post({ post }: { post: IPostDocument }) {
   const { user } = useUser();
@@ -19,6 +20,23 @@ function Post({ post }: { post: IPostDocument }) {
   const imageUrl = post.user.userImage;
 
   const isAuthor = user?.id === post.user.userId;
+
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+
+  const handleDeletePost = async () => {
+    // Close the modal
+    setShowDeleteModal(false);
+
+    const promise = deletePostAction(post._id);
+    await promise;
+
+    toast.promise(promise, {
+      loading: "Deleting post...",
+      success: "Post deleted",
+      error: "Failed to delete post",
+    });
+  };
+
   return (
     <div className="bg-white border rounded-lg">
       <div className="p-4 flex space-x-2 ">
@@ -49,16 +67,7 @@ function Post({ post }: { post: IPostDocument }) {
           {isAuthor && (
             <Button
               variant={"outline"}
-              onClick={() => {
-                const promise = deletePostAction(post._id);
-
-                // Toast
-                toast.promise(promise, {
-                  loading: "Deleting post...",
-                  success: "Post deleted",
-                  error: "Failed to delete post",
-                });
-              }}
+              onClick={() => setShowDeleteModal(true)}
             >
               <Trash2 />
             </Button>
@@ -77,7 +86,11 @@ function Post({ post }: { post: IPostDocument }) {
           />
         )}
       </div>
-      <PostOption post={post} />
+      <DeleteModal
+        open={showDeleteModal}
+        onClose={() => setShowDeleteModal(false)}
+        onConfirm={handleDeletePost}
+      />
     </div>
   );
 }
