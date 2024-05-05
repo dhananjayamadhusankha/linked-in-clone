@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Header from "@/components/Header";
 import { ClerkProvider } from "@clerk/nextjs";
+import { Toaster } from "@/components/ui/sonner";
 
 export const metadata: Metadata = {
   title: "LinkedIn",
@@ -21,7 +22,8 @@ export default function RootLayout({
             <Header />
           </header>
           <div className="bg-[#F4F2ED] flex-1 w-full">
-            <main>{children}</main>
+            <main className="max-w-6xl mx-auto">{children}</main>
+            <Toaster position="bottom-left" />
           </div>
         </body>
       </html>

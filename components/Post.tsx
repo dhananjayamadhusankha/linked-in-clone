@@ -10,6 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import ReactTimeago from "react-timeago";
 import deletePostAction from "@/actions/deletePostAction";
 import PostOption from "./PostOption";
+import { toast } from "sonner";
 
 function Post({ post }: { post: IPostDocument }) {
   const { user } = useUser();
@@ -52,6 +53,11 @@ function Post({ post }: { post: IPostDocument }) {
                 const promise = deletePostAction(post._id);
 
                 // Toast
+                toast.promise(promise, {
+                  loading: "Deleting post...",
+                  success: "Post deleted",
+                  error: "Failed to delete post",
+                });
               }}
             >
               <Trash2 />
@@ -71,7 +77,7 @@ function Post({ post }: { post: IPostDocument }) {
           />
         )}
       </div>
-      <PostOption post={post}/>
+      <PostOption post={post} />
     </div>
   );
 }
