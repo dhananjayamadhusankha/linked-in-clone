@@ -12,6 +12,7 @@ import deletePostAction from "@/actions/deletePostAction";
 import { toast } from "sonner";
 import DeleteModal from "./DeleteModal";
 import { IPostDocument } from "@/mongodb/models/post";
+import PostOption from "./PostOption";
 
 function Post({ post }: { post: IPostDocument }) {
   const { user } = useUser();
@@ -86,6 +87,7 @@ function Post({ post }: { post: IPostDocument }) {
           />
         )}
       </div>
+      <PostOption post={post} />
       <DeleteModal
         open={showDeleteModal}
         onClose={() => setShowDeleteModal(false)}
